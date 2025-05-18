@@ -80,7 +80,7 @@ public class Player : MonoBehaviour
             return;
         }
 
-        if(moveCnt > 5)
+        if(moveCnt > 7)
         {
             RespawnStair();
 
