@@ -130,9 +130,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 96
-        y: 128
+        y: 129
         width: 48
-        height: 48
+        height: 47
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -277,9 +277,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 192
-        y: 64
-        width: 64
-        height: 48
+        y: 96
+        width: 48
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -398,69 +398,6 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Terrain (16x16) 1_14
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1
-        height: 1
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1a20c98f3070043ad91d376c96e7e4f9
-      internalID: 352274982
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Terrain (16x16) 1_15
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1
-        height: 1
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 998b30e546b444adea5034e870ec3f5e
-      internalID: 589826336
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Terrain (16x16) 1_16
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1
-        height: 1
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8476ffa799e6f4df4a43b1e414d25b8e
-      internalID: 104543300
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -478,9 +415,6 @@ TextureImporter:
       Terrain (16x16) 1_11: 1023005550
       Terrain (16x16) 1_12: -929267169
       Terrain (16x16) 1_13: 823972347
-      Terrain (16x16) 1_14: 352274982
-      Terrain (16x16) 1_15: 589826336
-      Terrain (16x16) 1_16: 104543300
       Terrain (16x16) 1_2: 649615935
       Terrain (16x16) 1_3: 790729910
       Terrain (16x16) 1_4: -103324549

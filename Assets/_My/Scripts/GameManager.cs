@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI; // Image 컴포넌트 사용을 위해 추가
 
 public class GameManager : MonoBehaviour
 {
@@ -25,6 +26,13 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI textShowScore;
     private int maxScore = 0;
     private int nowScore = 0;
+
+    [Header("배경")]
+    [Space(10)]
+    public Image backgroundImage; // UI Canvas에 추가한 배경 이미지
+    public Sprite[] backgroundSprites; // 사용할 배경 이미지들
+    private int currentBackgroundIndex = 0;
+    public int backgroundChangeInterval = 100; // 배경 변경 간격 (100점마다)
 
     [Header("Audio")]
     [Space(10)]
@@ -56,6 +64,13 @@ public class GameManager : MonoBehaviour
         }
 
         nowScore = 0;
+        currentBackgroundIndex = 0;
+        
+        // 초기 배경 설정
+        if(backgroundImage != null && backgroundSprites.Length > 0)
+        {
+            backgroundImage.sprite = backgroundSprites[0];
+        }
 
         textShowScore.text = nowScore.ToString();
 
@@ -65,7 +80,6 @@ public class GameManager : MonoBehaviour
         sound.Play();
         sound.loop = true;
         sound.volume = 0.4f;
-
     }
 
     public void InitStairs()
@@ -156,5 +170,24 @@ public class GameManager : MonoBehaviour
     {
         nowScore++;
         textShowScore.text = nowScore.ToString();
+        
+        // 일정 점수마다 배경 변경
+        if (nowScore % backgroundChangeInterval == 0 && backgroundSprites.Length > 0)
+        {
+            ChangeBackground();
+        }
+    }
+    
+    // 배경 변경 함수
+    private void ChangeBackground()
+    {
+        if(backgroundImage == null || backgroundSprites.Length == 0)
+            return;
+            
+        // 다음 배경 인덱스 계산 (순환)
+        currentBackgroundIndex = (currentBackgroundIndex + 1) % backgroundSprites.Length;
+        
+        // 배경 이미지 변경
+        backgroundImage.sprite = backgroundSprites[currentBackgroundIndex];
     }
 }
