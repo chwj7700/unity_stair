@@ -148,4 +148,13 @@ public class Player : MonoBehaviour
         GameManager.Instance.Init();
         GameManager.Instance.InitStairs();
     }
+    
+    // 캐릭터 스프라이트 변경 메서드
+    public void ChangeCharacterSprite(Sprite newSprite)
+    {
+        if(spriteRenderer != null && newSprite != null)
+        {
+            spriteRenderer.sprite = newSprite;
+        }
+    }
 }

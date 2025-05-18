@@ -34,6 +34,12 @@ public class GameManager : MonoBehaviour
     private int currentBackgroundIndex = 0;
     public int backgroundChangeInterval = 100; // 배경 변경 간격 (100점마다)
 
+    [Header("캐릭터")]
+    [Space(10)]
+    public Player playerReference; // 플레이어 오브젝트 참조
+    public Sprite[] characterSprites; // 캐릭터 스프라이트 배열
+    private int currentCharacterIndex = 0;
+
     [Header("Audio")]
     [Space(10)]
     private AudioSource sound;
@@ -65,11 +71,18 @@ public class GameManager : MonoBehaviour
 
         nowScore = 0;
         currentBackgroundIndex = 0;
+        currentCharacterIndex = 0;
         
         // 초기 배경 설정
         if(backgroundImage != null && backgroundSprites.Length > 0)
         {
             backgroundImage.sprite = backgroundSprites[0];
+        }
+        
+        // 초기 캐릭터 스프라이트 설정
+        if(playerReference != null && characterSprites.Length > 0)
+        {
+            playerReference.ChangeCharacterSprite(characterSprites[0]);
         }
 
         textShowScore.text = nowScore.ToString();
@@ -171,10 +184,11 @@ public class GameManager : MonoBehaviour
         nowScore++;
         textShowScore.text = nowScore.ToString();
         
-        // 일정 점수마다 배경 변경
-        if (nowScore % backgroundChangeInterval == 0 && backgroundSprites.Length > 0)
+        // 일정 점수마다 배경과 캐릭터 변경
+        if (nowScore % backgroundChangeInterval == 0)
         {
             ChangeBackground();
+            ChangeCharacter();
         }
     }
     
@@ -189,5 +203,18 @@ public class GameManager : MonoBehaviour
         
         // 배경 이미지 변경
         backgroundImage.sprite = backgroundSprites[currentBackgroundIndex];
+    }
+    
+    // 캐릭터 변경 함수
+    private void ChangeCharacter()
+    {
+        if(playerReference == null || characterSprites.Length == 0)
+            return;
+            
+        // 다음 캐릭터 인덱스 계산 (순환)
+        currentCharacterIndex = (currentCharacterIndex + 1) % characterSprites.Length;
+        
+        // 캐릭터 스프라이트 변경
+        playerReference.ChangeCharacterSprite(characterSprites[currentCharacterIndex]);
     }
 }
