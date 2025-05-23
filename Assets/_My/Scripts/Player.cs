@@ -41,15 +41,38 @@ public class Player : MonoBehaviour
     /// </summary>
     void Update()
     {
-        // 우클릭: 방향 전환
-        if (Input.GetMouseButtonDown(1))
+        // 사망 상태일 때 스페이스바로 재시작
+        if (isDie)
         {
-            CharTurn();
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                ButtonRestart();
+            }
+            return;
         }
-        // 좌클릭: 캐릭터 이동
-        else if (Input.GetMouseButtonDown(0))
+
+        HandleInput();
+    }
+
+    /// <summary>
+    /// 플레이어 입력 처리
+    /// </summary>
+    private void HandleInput()
+    {
+        switch (true)
         {
-            CharMove();
+            case bool _ when Input.GetMouseButtonDown(1) && Event.current.type == EventType.MouseDown:
+                CharTurn();
+                break;
+            case bool _ when Input.GetMouseButtonDown(0) && Event.current.type == EventType.MouseDown:
+                CharMove();
+                break;
+            case bool _ when Input.GetKeyDown(KeyCode.LeftArrow):
+                MoveLeft();
+                break;
+            case bool _ when Input.GetKeyDown(KeyCode.RightArrow):
+                MoveRight();
+                break;
         }
     }
 
@@ -129,6 +152,32 @@ public class Player : MonoBehaviour
 
         // 점수 증가
         GameManager.Instance.AddScore();
+    }
+
+    /// <summary>
+    /// 왼쪽으로 이동
+    /// </summary>
+    private void MoveLeft()
+    {
+        if (!isDie)
+        {
+            isTurn = true;
+            spriteRenderer.flipX = isTurn;
+            CharMove();
+        }
+    }
+
+    /// <summary>
+    /// 오른쪽으로 이동
+    /// </summary>
+    private void MoveRight()
+    {
+        if (!isDie)
+        {
+            isTurn = false;
+            spriteRenderer.flipX = isTurn;
+            CharMove();
+        }
     }
 
     /// <summary>
