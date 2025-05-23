@@ -61,15 +61,19 @@ public class Player : MonoBehaviour
     {
         switch (true)
         {
+            // 우클릭: 방향 전환
             case bool _ when Input.GetMouseButtonDown(1) && Event.current.type == EventType.MouseDown:
                 CharTurn();
                 break;
+            // 좌클릭: 캐릭터 이동
             case bool _ when Input.GetMouseButtonDown(0) && Event.current.type == EventType.MouseDown:
                 CharMove();
                 break;
+            // 좌측 방향키: 왼쪽으로 캐릭터 이동
             case bool _ when Input.GetKeyDown(KeyCode.LeftArrow):
                 MoveLeft();
                 break;
+            // 우측 방향키: 오른쪽으로 캐릭터 이동
             case bool _ when Input.GetKeyDown(KeyCode.RightArrow):
                 MoveRight();
                 break;
