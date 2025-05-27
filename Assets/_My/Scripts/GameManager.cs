@@ -15,7 +15,17 @@ public class GameManager : MonoBehaviour
 
     [Header("계단")]
     [Space(10)]
+    public const int TOTAL_STAIRS = 40;  // 총 계단 수
+    public bool isGameCleared = false;   // 게임 클리어 여부
 
+    [Header("게임 클리어")]
+    [Space(10)]
+    public GameObject clearUI;            // 클리어 UI 오브젝트
+    public Image gameClearImage;         // 게임 클리어 이미지
+    public Sprite[] gameClearSprites;    // 게임 클리어 이미지 배열
+
+    [Header("계단")]
+    [Space(10)]
     public GameObject[] Stairs;       // 계단 오브젝트 배열
     public bool[] isTurn;             // 각 계단의 방향 정보 (false: 오른쪽, true: 왼쪽)
 
@@ -95,6 +105,7 @@ public class GameManager : MonoBehaviour
         currentCharacterIndex = 0;
         playTime = 0f;
         isPlaying = true;
+        isGameCleared = false;
         
         // 초기 배경 설정
         if(backgroundImage != null && backgroundSprites.Length > 0)
@@ -108,12 +119,15 @@ public class GameManager : MonoBehaviour
             playerReference.ChangeCharacterSprite(characterSprites[0]);
         }
 
+        // UI 초기화
+        if (clearUI != null)
+            clearUI.SetActive(false);
+        if (UI_GameOver != null)
+            UI_GameOver.SetActive(false);
+
         // UI 텍스트 초기화
         textShowScore.text = nowScore.ToString();
         textPlayTime.text = "00:00";
-
-        // 게임오버 UI 비활성화
-        UI_GameOver.SetActive(false);
 
         // 배경 음악 설정 및 재생
         sound.clip = bgmSound;
@@ -240,10 +254,18 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void AddScore()
     {
-        // 점수 증가
+        if (isGameCleared) return;
+
         nowScore++;
         textShowScore.text = nowScore.ToString();
         
+        // 마지막 계단에 도달하면 게임 클리어
+        if (nowScore >= TOTAL_STAIRS)
+        {
+            GameClear();
+            return;
+        }
+
         // 일정 점수마다 배경과 캐릭터 변경
         if (nowScore % backgroundChangeInterval == 0)
         {
@@ -283,7 +305,44 @@ public class GameManager : MonoBehaviour
         // 캐릭터 스프라이트 변경
         playerReference.ChangeCharacterSprite(characterSprites[currentCharacterIndex]);
     }
+    
+    /// <summary>
+    /// 게임 클리어 처리
+    /// </summary>
+    private void GameClear()
+    {
+        isPlaying = false;
+        isGameCleared = true;
+        
+        // 배경 음악 중지
+        sound.Stop();
+        
+        // 클리어 UI 표시
+        if (clearUI != null)
+        {
+            clearUI.SetActive(true);
+            
+            // 시간에 따른 결과 이미지 출력
+            if (gameClearImage != null && gameClearSprites != null && gameClearSprites.Length >= 4)
+            {
+                int resultIndex;
+                if (playTime <= 10f)
+                    resultIndex = 0;
+                else if (playTime <= 15f)
+                    resultIndex = 1;
+                else if (playTime <= 20f)
+                    resultIndex = 2;
+                else
+                    resultIndex = 3;
+                    
+                gameClearImage.sprite = gameClearSprites[resultIndex];
+            }
+        }
+    }
 
+    /// <summary>
+    /// 플레이 시간 업데이트
+    /// </summary>
     void Update()
     {
         if (isPlaying)
@@ -293,6 +352,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 플레이 시간 표시 업데이트
+    /// </summary>
     private void UpdatePlayTimeDisplay()
     {
         int minutes = Mathf.FloorToInt(playTime / 60);

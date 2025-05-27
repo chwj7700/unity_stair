@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         // 사망 상태일 때 스페이스바로 재시작
-        if (isDie)
+        if (isDie || GameManager.Instance.isGameCleared)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -237,6 +237,12 @@ public class Player : MonoBehaviour
     /// </summary>
     private void RespawnStair()
     {
+        // TOTAL_STAIRS 이상의 계단은 생성하지 않음
+        if (moveCnt >= GameManager.TOTAL_STAIRS - 12)
+        {
+            return;
+        }
+
         // GameManager에 새 계단 생성 요청
         GameManager.Instance.SpawnStair(spawnCnt);
 
