@@ -29,8 +29,11 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI textMaxScore;  // 최고 점수 텍스트
     public TextMeshProUGUI textNowScore;  // 현재 점수 텍스트 (게임오버 화면)
     public TextMeshProUGUI textShowScore; // 현재 점수 텍스트 (게임 진행 중)
+    public TextMeshProUGUI textPlayTime;  // 플레이 시간 텍스트
     private int maxScore = 0;         // 최고 점수 저장
     private int nowScore = 0;         // 현재 점수 저장
+    private float playTime = 0f;      // 플레이 시간 저장
+    private bool isPlaying = false;   // 게임 진행 상태
 
     [Header("배경")]
     [Space(10)]
@@ -90,6 +93,8 @@ public class GameManager : MonoBehaviour
         nowScore = 0;
         currentBackgroundIndex = 0;
         currentCharacterIndex = 0;
+        playTime = 0f;
+        isPlaying = true;
         
         // 초기 배경 설정
         if(backgroundImage != null && backgroundSprites.Length > 0)
@@ -105,6 +110,7 @@ public class GameManager : MonoBehaviour
 
         // UI 텍스트 초기화
         textShowScore.text = nowScore.ToString();
+        textPlayTime.text = "00:00";
 
         // 게임오버 UI 비활성화
         UI_GameOver.SetActive(false);
@@ -195,6 +201,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void GameOver()
     {
+        isPlaying = false;
         // 배경 음악 중지 및 사망 효과음 재생
         sound.loop = false;
         sound.Stop();
@@ -275,5 +282,21 @@ public class GameManager : MonoBehaviour
         
         // 캐릭터 스프라이트 변경
         playerReference.ChangeCharacterSprite(characterSprites[currentCharacterIndex]);
+    }
+
+    void Update()
+    {
+        if (isPlaying)
+        {
+            playTime += Time.deltaTime;
+            UpdatePlayTimeDisplay();
+        }
+    }
+
+    private void UpdatePlayTimeDisplay()
+    {
+        int minutes = Mathf.FloorToInt(playTime / 60);
+        int seconds = Mathf.FloorToInt(playTime % 60);
+        textPlayTime.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 }
