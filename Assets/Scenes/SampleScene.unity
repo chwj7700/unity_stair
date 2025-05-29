@@ -487,12 +487,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7fe03767cb55c4663ba6abb0375f1b97, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8249db9d54ee04825886d9abaa9b0c2c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.32, y: 0.32}
+  m_Size: {x: 0.96, y: 0.96}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -909,7 +909,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 800, y: 1500}
+  m_SizeDelta: {x: 3000, y: 3000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &96615596
 MonoBehaviour:
@@ -931,7 +931,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 27c6aeb81b74e4797bb352b98e4d4b33, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f37468116ed5d43b79bd481f56601c1c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5337,20 +5337,23 @@ MonoBehaviour:
   textPlayTime: {fileID: 266449865}
   backgroundImage: {fileID: 96615596}
   backgroundSprites:
-  - {fileID: 21300000, guid: 27c6aeb81b74e4797bb352b98e4d4b33, type: 3}
-  - {fileID: 21300000, guid: 626b13666fb994548bba5793fa4dba64, type: 3}
-  - {fileID: 21300000, guid: 295e9a4af93784f35a7e41f4cbaa6e19, type: 3}
-  - {fileID: 21300000, guid: 2c808fe5543494582b357ef39b9911cf, type: 3}
-  - {fileID: 21300000, guid: d97fdd7a2503f40ac829c1808425f663, type: 3}
-  - {fileID: 21300000, guid: 0d4d56ced0e2446758b08f5bd3d1fb87, type: 3}
-  backgroundChangeInterval: 10
+  - {fileID: 21300000, guid: f37468116ed5d43b79bd481f56601c1c, type: 3}
+  - {fileID: 21300000, guid: 4739714b535dc4bf686274e7d56c135e, type: 3}
+  - {fileID: 21300000, guid: f67b64d5a88654660ab21058d1f428f0, type: 3}
+  backgroundChangeInterval: 20
   playerReference: {fileID: 43267228}
   characterSprites:
-  - {fileID: 21300000, guid: 7fe03767cb55c4663ba6abb0375f1b97, type: 3}
-  - {fileID: 21300000, guid: e9f3e51d29c2146888754d02ae2e1fcf, type: 3}
-  - {fileID: 21300000, guid: 6c9c63044bf1f4a77a1813dcd4494b01, type: 3}
-  - {fileID: 21300000, guid: 0b3308a4c9566478b84811bb37b23aa3, type: 3}
-  - {fileID: 21300000, guid: 05f063b371d0049bd90f80db234a3e9b, type: 3}
+  - {fileID: 21300000, guid: 8249db9d54ee04825886d9abaa9b0c2c, type: 3}
+  - {fileID: 21300000, guid: 6832fc0e6abfe4cbfb746c5c6d7f913f, type: 3}
+  - {fileID: 21300000, guid: 174370fb2f22c4747a7b89e053b7e606, type: 3}
+  characterIdleSprites:
+  - {fileID: 21300000, guid: 8249db9d54ee04825886d9abaa9b0c2c, type: 3}
+  - {fileID: 21300000, guid: 6832fc0e6abfe4cbfb746c5c6d7f913f, type: 3}
+  - {fileID: 21300000, guid: 174370fb2f22c4747a7b89e053b7e606, type: 3}
+  characterMoveSprites:
+  - {fileID: 21300000, guid: d83597c583f0546f498756366dbce604, type: 3}
+  - {fileID: 21300000, guid: 79f26403ab6244cc086664e8d1089945, type: 3}
+  - {fileID: 21300000, guid: 673eb889d83764c00b3b49f71bb8dd1f, type: 3}
   bgmSound: {fileID: 8300000, guid: 9669960e415ea604d81fb0784634df79, type: 3}
   dieSound: {fileID: 8300000, guid: acbcb75601b0082458fda8807f67c813, type: 3}
 --- !u!4 &1792273930
