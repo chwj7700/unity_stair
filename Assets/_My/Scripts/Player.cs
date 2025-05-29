@@ -138,6 +138,12 @@ public class Player : MonoBehaviour
         // 실제 이동 처리
         MoveDirection();
         
+        // 캐릭터 이동 애니메이션 재생
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.PlayCharacterMoveAnimation();
+        }
+        
         // 잘못된 방향으로 이동했는지 확인
         if(isFailTurn())
         {
@@ -294,6 +300,12 @@ public class Player : MonoBehaviour
         // 게임매니저 초기화
         GameManager.Instance.Init();
         GameManager.Instance.InitStairs();
+        
+        // 캐릭터를 Idle 스프라이트로 설정
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.SetCharacterToIdle();
+        }
     }
     
     /// <summary>

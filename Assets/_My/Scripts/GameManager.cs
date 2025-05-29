@@ -58,6 +58,11 @@ public class GameManager : MonoBehaviour
     public Player playerReference;    // 플레이어 오브젝트 참조
     public Sprite[] characterSprites; // 캐릭터 스프라이트 배열
     private int currentCharacterIndex = 0;  // 현재 캐릭터 인덱스
+    
+    [Header("캐릭터 애니메이션")]
+    [Space(10)]
+    public Sprite[] characterIdleSprites; // 가만히 서있을 때의 스프라이트 배열 (1_1, 2_1, 3_1)
+    public Sprite[] characterMoveSprites; // 이동할 때의 스프라이트 배열 (1_2, 2_2, 3_2)
 
     [Header("Audio")]
     [Space(10)]
@@ -126,10 +131,10 @@ public class GameManager : MonoBehaviour
             }
         }
         
-        // 초기 캐릭터 스프라이트 설정
-        if(playerReference != null && characterSprites.Length > 0)
+        // 초기 캐릭터 스프라이트 설정 (Idle 스프라이트 사용)
+        if(playerReference != null && characterIdleSprites != null && characterIdleSprites.Length > 0)
         {
-            playerReference.ChangeCharacterSprite(characterSprites[0]);
+            playerReference.ChangeCharacterSprite(characterIdleSprites[0]);
         }
 
         // UI 초기화
@@ -316,14 +321,14 @@ public class GameManager : MonoBehaviour
     private void ChangeCharacter()
     {
         // 플레이어 참조나 스프라이트가 없으면 리턴
-        if(playerReference == null || characterSprites.Length == 0)
+        if(playerReference == null || characterIdleSprites == null || characterIdleSprites.Length == 0)
             return;
             
         // 다음 캐릭터 인덱스 계산 (순환)
-        currentCharacterIndex = (currentCharacterIndex + 1) % characterSprites.Length;
+        currentCharacterIndex = (currentCharacterIndex + 1) % characterIdleSprites.Length;
         
-        // 캐릭터 스프라이트 변경
-        playerReference.ChangeCharacterSprite(characterSprites[currentCharacterIndex]);
+        // 캐릭터 스프라이트 변경 (Idle 스프라이트 사용)
+        playerReference.ChangeCharacterSprite(characterIdleSprites[currentCharacterIndex]);
     }
     
     /// <summary>
@@ -415,6 +420,47 @@ public class GameManager : MonoBehaviour
             rectTransform.anchoredPosition = new Vector2(
                 currentPosition.x - moveAmountX, 
                 currentPosition.y - moveAmountY); // 위로 이동하기 위해 음수 부호 변경
+        }
+    }
+    
+    /// <summary>
+    /// 캐릭터를 이동 스프라이트로 잠시 변경하는 메서드
+    /// </summary>
+    public void PlayCharacterMoveAnimation()
+    {
+        if (playerReference != null && characterMoveSprites != null && characterMoveSprites.Length > currentCharacterIndex)
+        {
+            // 현재 캐릭터 인덱스에 맞는 이동 스프라이트로 변경
+            playerReference.ChangeCharacterSprite(characterMoveSprites[currentCharacterIndex]);
+            
+            // 잠시 후 원래 스프라이트로 돌아가는 코루틴 시작
+            StartCoroutine(RestoreCharacterIdleSprite());
+        }
+    }
+    
+    /// <summary>
+    /// 잠시 후 캐릭터를 원래 Idle 스프라이트로 돌려놓는 코루틴
+    /// </summary>
+    private IEnumerator RestoreCharacterIdleSprite()
+    {
+        // 0.2초 대기 (애니메이션 시간)
+        yield return new WaitForSeconds(0.2f);
+        
+        // 원래 Idle 스프라이트로 복원
+        if (playerReference != null && characterIdleSprites != null && characterIdleSprites.Length > currentCharacterIndex)
+        {
+            playerReference.ChangeCharacterSprite(characterIdleSprites[currentCharacterIndex]);
+        }
+    }
+    
+    /// <summary>
+    /// 현재 캐릭터를 Idle 스프라이트로 설정하는 메서드
+    /// </summary>
+    public void SetCharacterToIdle()
+    {
+        if (playerReference != null && characterIdleSprites != null && characterIdleSprites.Length > currentCharacterIndex)
+        {
+            playerReference.ChangeCharacterSprite(characterIdleSprites[currentCharacterIndex]);
         }
     }
 }
