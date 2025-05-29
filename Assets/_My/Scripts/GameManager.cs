@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
     public Sprite[] backgroundSprites; // 사용할 배경 이미지들
     private int currentBackgroundIndex = 0; // 현재 배경 인덱스
     public int backgroundChangeInterval = 100; // 배경 변경 간격 (100점마다)
+    private Vector2 initialBackgroundPosition; // 초기 배경 이미지 위치 저장
 
     [Header("캐릭터")]
     [Space(10)]
@@ -74,6 +75,12 @@ public class GameManager : MonoBehaviour
 
         // 오디오 소스 컴포넌트 가져오기
         sound = GetComponent<AudioSource>();
+        
+        // 초기 배경 위치 저장
+        if (backgroundImage != null && backgroundImage.rectTransform != null)
+        {
+            initialBackgroundPosition = backgroundImage.rectTransform.anchoredPosition;
+        }
         
         // 게임 초기화
         Init();
@@ -111,6 +118,12 @@ public class GameManager : MonoBehaviour
         if(backgroundImage != null && backgroundSprites.Length > 0)
         {
             backgroundImage.sprite = backgroundSprites[0];
+            
+            // 배경 이미지 위치를 초기 좌표로 리셋
+            if (backgroundImage.rectTransform != null)
+            {
+                backgroundImage.rectTransform.anchoredPosition = initialBackgroundPosition;
+            }
         }
         
         // 초기 캐릭터 스프라이트 설정
@@ -288,6 +301,13 @@ public class GameManager : MonoBehaviour
         
         // 배경 이미지 변경
         backgroundImage.sprite = backgroundSprites[currentBackgroundIndex];
+        
+        // 배경 이미지 위치를 초기 좌표로 리셋
+        if (backgroundImage != null && backgroundImage.rectTransform != null)
+        {
+            // 배경 이미지의 위치를 초기 저장해둔 좌표로 리셋
+            backgroundImage.rectTransform.anchoredPosition = initialBackgroundPosition;
+        }
     }
     
     /// <summary>
@@ -360,5 +380,41 @@ public class GameManager : MonoBehaviour
         int minutes = Mathf.FloorToInt(playTime / 60);
         int seconds = Mathf.FloorToInt(playTime % 60);
         textPlayTime.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    }
+    
+    /// <summary>
+    /// 배경 이미지 위치를 이동시키는 메서드
+    /// </summary>
+    /// <param name="direction">이동 방향 (true: 왼쪽, false: 오른쪽)</param>
+    public void MoveBackground(bool direction)
+    {
+        if (backgroundImage == null)
+            return;
+            
+        // 배경의 RectTransform 가져오기
+        RectTransform rectTransform = backgroundImage.rectTransform;
+        
+        // 현재 위치 가져오기
+        Vector2 currentPosition = rectTransform.anchoredPosition;
+        
+        // 이동 방향에 따라 배경 이동 (플레이어 이동과 반대 방향으로 이동)
+        // 플레이어가 오른쪽으로 이동하면 배경은 왼쪽으로 이동
+        float moveAmountX = 5.0f; // 좌우 이동 거리 조정
+        float moveAmountY = 3.0f; // 상하 이동 거리 조정 (음수 값으로 설정하여 아래로 이동)
+        
+        if (direction) // 플레이어가 왼쪽으로 이동
+        {
+            // 배경은 오른쪽으로 이동하고 위로 이동
+            rectTransform.anchoredPosition = new Vector2(
+                currentPosition.x + moveAmountX, 
+                currentPosition.y - moveAmountY); // 위로 이동하기 위해 음수 부호 변경
+        }
+        else // 플레이어가 오른쪽으로 이동
+        {
+            // 배경은 왼쪽으로 이동하고 위로 이동
+            rectTransform.anchoredPosition = new Vector2(
+                currentPosition.x - moveAmountX, 
+                currentPosition.y - moveAmountY); // 위로 이동하기 위해 음수 부호 변경
+        }
     }
 }
