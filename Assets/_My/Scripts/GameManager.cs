@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
 
     [Header("계단")]
     [Space(10)]
-    public const int TOTAL_STAIRS = 40;  // 총 계단 수
+    public const int TOTAL_STAIRS = 120;  // 총 계단 수
     public bool isGameCleared = false;   // 게임 클리어 여부
 
     [Header("게임 클리어")]
