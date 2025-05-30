@@ -1482,8 +1482,6 @@ public class GameManager : MonoBehaviour
                 jobType = JobSystem.JobType.Unknown,
                 jobName = "평범한 사람",
                 description = "알 수 없는 직업",
-                minSpeedIndex = 0f,
-                maxSpeedIndex = float.MaxValue,
                 minStairs = 0,
                 maxStairs = int.MaxValue,
                 priority = 99
@@ -1625,6 +1623,63 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
+    /// SpeedGrade 기반 직업 시스템 테스트
+    /// </summary>
+    [ContextMenu("SpeedGrade 기반 직업 시스템 테스트")]
+    public void TestSpeedGradeBasedJobSystem()
+    {
+        Debug.Log("=== 사용자 표 기반 직업 시스템 테스트 ===");
+        
+        // 매우 빠름~빠름 등급 직업들 테스트
+        Debug.Log("\n--- 매우 빠름~빠름(VeryFast~Fast) 등급 테스트 ---");
+        TestJobScenario(0.5f, 110, "매우 빠름, 110계단 (대통령 예상)");
+        TestJobScenario(0.6f, 110, "빠름, 110계단 (대통령 예상)");
+        TestJobScenario(0.5f, 70, "매우 빠름, 70계단 (가수/무용가 예상)");
+        TestJobScenario(0.6f, 50, "빠름, 50계단 (가수/무용가 예상)");
+        
+        // 보통~느림 등급 직업들 테스트  
+        Debug.Log("\n--- 보통~느림(Normal~Slow) 등급 테스트 ---");
+        TestJobScenario(0.8f, 110, "보통, 110계단 (의사 예상)");
+        TestJobScenario(1.0f, 110, "느림, 110계단 (의사 예상)");
+        TestJobScenario(0.8f, 90, "보통, 90계단 (간호사 예상)");
+        TestJobScenario(1.0f, 90, "느림, 90계단 (간호사 예상)");
+        TestJobScenario(0.8f, 70, "보통, 70계단 (교사 예상)");
+        TestJobScenario(1.0f, 70, "느림, 70계단 (교사 예상)");
+        
+        // 보통 전용 직업들 테스트
+        Debug.Log("\n--- 보통(Normal) 전용 직업 테스트 ---");
+        TestJobScenario(0.8f, 100, "보통, 100계단 (공무원/소방관 예상)");
+        TestJobScenario(0.8f, 50, "보통, 50계단 (회사원 예상)");
+        
+        // 느림~매우 느림 등급 직업들 테스트
+        Debug.Log("\n--- 느림~매우 느림(Slow~VerySlow) 등급 테스트 ---");
+        TestJobScenario(1.0f, 100, "느림, 100계단 (교수 예상)");
+        TestJobScenario(1.3f, 100, "매우 느림, 100계단 (교수 예상)");
+        TestJobScenario(1.0f, 80, "느림, 80계단 (작가 예상)");
+        TestJobScenario(1.3f, 80, "매우 느림, 80계단 (작가 예상)");
+        
+        // 매우 느림 전용 직업들 테스트
+        Debug.Log("\n--- 매우 느림(VerySlow) 전용 직업 테스트 ---");
+        TestJobScenario(1.3f, 90, "매우 느림, 90계단 (철학자 예상)");
+        TestJobScenario(1.3f, 50, "매우 느림, 50계단 (회상가 예상)");
+        
+        // 40계단 이하 거지 할당 테스트
+        Debug.Log("\n--- 40계단 이하 거지 강제할당 테스트 ---");
+        TestJobScenario(0.5f, 30, "매우 빠름, 30계단 (거지 강제할당 예상)");
+        TestJobScenario(0.8f, 35, "보통, 35계단 (거지 강제할당 예상)");
+        TestJobScenario(1.3f, 40, "매우 느림, 40계단 (거지 강제할당 예상)");
+        
+        // 경계값 테스트
+        Debug.Log("\n--- 경계값 테스트 ---");
+        TestJobScenario(0.8f, 40, "보통, 40계단 (거지 강제할당)");
+        TestJobScenario(0.8f, 41, "보통, 41계단 (회사원 예상)");
+        TestJobScenario(1.3f, 60, "매우 느림, 60계단 (회상가 예상)");
+        TestJobScenario(1.3f, 61, "매우 느림, 61계단 (작가 예상)");
+        
+        Debug.Log("=== 사용자 표 기반 직업 시스템 테스트 완료 ===");
+    }
+
+    /// <summary>
     /// 40계단 이하 거지 강제 할당 테스트
     /// </summary>
     [ContextMenu("40계단 이하 거지 할당 테스트")]
@@ -1633,16 +1688,17 @@ public class GameManager : MonoBehaviour
         Debug.Log("=== 40계단 이하 거지 강제 할당 테스트 ===");
         
         // 다양한 속도 지수로 40계단 이하 테스트
-        TestJobScenario(0.5f, 20, "매우 빠름, 20계단 (거지 예상)");
-        TestJobScenario(0.8f, 30, "빠름, 30계단 (거지 예상)");
-        TestJobScenario(1.0f, 35, "보통, 35계단 (거지 예상)");
-        TestJobScenario(1.5f, 40, "느림, 40계단 (거지 예상)");
-        TestJobScenario(2.0f, 25, "매우 느림, 25계단 (거지 예상)");
+        TestJobScenario(0.2f, 20, "매우 빠름, 20계단 (거지 예상)");
+        TestJobScenario(0.4f, 30, "빠름, 30계단 (거지 예상)");
+        TestJobScenario(0.6f, 35, "보통, 35계단 (거지 예상)");
+        TestJobScenario(0.9f, 40, "느림, 40계단 (거지 예상)");
+        TestJobScenario(1.5f, 25, "매우 느림, 25계단 (거지 예상)");
         
         // 경계값 테스트 (40계단 vs 41계단)
-        TestJobScenario(1.0f, 40, "보통, 40계단 (거지 예상)");
-        TestJobScenario(1.0f, 41, "보통, 41계단 (기존 규칙 적용 예상)");
+        TestJobScenario(0.6f, 40, "보통, 40계단 (거지 예상)");
+        TestJobScenario(0.6f, 41, "보통, 41계단 (기존 규칙 적용 예상)");
         
         Debug.Log("=== 40계단 이하 거지 강제 할당 테스트 완료 ===");
     }
+
 }

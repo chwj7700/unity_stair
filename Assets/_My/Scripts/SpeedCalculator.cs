@@ -23,10 +23,10 @@ public class SpeedCalculator
 
     #region 속도 지수 구간 상수
     
-    public const float VERY_FAST_THRESHOLD = 0.3f;
-    public const float FAST_THRESHOLD = 0.5f;
-    public const float NORMAL_THRESHOLD = 0.7f;
-    public const float SLOW_THRESHOLD = 1.0f;
+    public const float VERY_FAST_THRESHOLD = 0.6f;
+    public const float FAST_THRESHOLD = 0.7f;
+    public const float NORMAL_THRESHOLD = 0.9f;
+    public const float SLOW_THRESHOLD = 1.1f;
     
     #endregion
 
@@ -188,6 +188,39 @@ public class SpeedCalculator
         }
     }
     
+    /// <summary>
+    /// 특정 계단 수에서의 목표 시간을 계산합니다 (참고용)
+    /// </summary>
+    /// <param name="targetStairs">목표 계단 수</param>
+    /// <returns>해당 계단까지의 목표 시간</returns>
+    public static float GetTargetTimeForStairs(int targetStairs)
+    {
+        float ratio = CalculateStairRatio(targetStairs);
+        return CalculateIdealTime(ratio);
+    }
+    
+    /// <summary>
+    /// 속도 지수가 허용된 속도 등급들 중 하나와 일치하는지 확인합니다
+    /// </summary>
+    /// <param name="speedIndex">확인할 속도 지수</param>
+    /// <param name="allowedGrades">허용된 속도 등급 배열</param>
+    /// <returns>일치 여부</returns>
+    public static bool IsSpeedGradeAllowed(float speedIndex, SpeedGrade[] allowedGrades)
+    {
+        if (allowedGrades == null || allowedGrades.Length == 0)
+            return false;
+            
+        SpeedGrade currentGrade = DetermineSpeedGrade(speedIndex);
+        
+        foreach (SpeedGrade allowedGrade in allowedGrades)
+        {
+            if (currentGrade == allowedGrade)
+                return true;
+        }
+        
+        return false;
+    }
+    
     #endregion
 
     #region 디버그 및 유틸리티 메서드
@@ -204,17 +237,6 @@ public class SpeedCalculator
                   $"이상적 시간: {result.idealTime:F2}초\n" +
                   $"속도 지수: {result.speedIndex:F3}\n" +
                   $"속도 등급: {result.speedGradeText}");
-    }
-    
-    /// <summary>
-    /// 특정 계단 수에서의 목표 시간을 계산합니다 (참고용)
-    /// </summary>
-    /// <param name="targetStairs">목표 계단 수</param>
-    /// <returns>해당 계단까지의 목표 시간</returns>
-    public static float GetTargetTimeForStairs(int targetStairs)
-    {
-        float ratio = CalculateStairRatio(targetStairs);
-        return CalculateIdealTime(ratio);
     }
     
     #endregion
